@@ -1,0 +1,146 @@
+#include <iostream>
+
+#include "Application.h"
+#include "DebugUtilty.h"
+
+Applciation::Applciation(uint32_t windowWidth, uint32_t windowHeight, const std::string& name)
+	: m_WindowHeight(windowHeight), m_WindowWidth(windowWidth), m_AppName(name)
+{
+	//================================== INT WINDOW ==========================//
+
+	
+	ASSERT_L(glfwInit(), " can't initalize GLFW");
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		
+
+	m_Window = glfwCreateWindow(m_WindowWidth, m_WindowHeight, m_AppName.c_str(), NULL, NULL);
+	ASSERT_L(m_Window, " can't create window");
+	
+	glfwMakeContextCurrent(m_Window);
+	ASSERT_L(glewInit() == GLEW_OK, " unable to initalize GLEW");
+
+	glfwSwapInterval(1);	 // 1/0 | enable/disable vsync
+
+	
+	//================================== Init ImGui ================================== //
+
+	//set up IMGUI
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	m_ImGuiIO = &ImGui::GetIO(); (void)m_ImGuiIO;
+	m_ImGuiIO->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	m_ImGuiIO->ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+	m_ImGuiIO->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+
+	//set style
+	ImGui::StyleColorsDark();
+
+	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+	ImGuiStyle& style = ImGui::GetStyle();
+	if (m_ImGuiIO->ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		style.WindowRounding = 1.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
+	ImGui_ImplOpenGL3_Init(m_GlslVersion);
+
+
+	//Crete target Texture
+	m_TargetTexture = new Texture2D(1, 1); 
+
+	m_IsRunning = true;
+
+}
+
+Applciation::~Applciation()
+{
+}
+
+void Applciation::Start()
+{
+	std::cout << "App is starting" << std::endl;
+}
+
+void Applciation::PerFrame()
+{
+	/* Poll for and process events */
+	glfwPollEvents();
+
+	//================================== Render GUI ================================== //
+	
+	//Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
+	// ------------------------------ GUI CODE HERE ---------------------//
+	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()); //Enable docking UI
+
+	//Vwie port Panel 
+	ImGui::Begin("Vwie port");
+	{
+		ImVec2 viwieSize = ImGui::GetContentRegionMax();
+
+		//Resiaze taraget texture aftet resizing viwie port
+		if ((static_cast<int>(viwieSize.x) != static_cast<int>(m_ViwiePortSize.x) || static_cast<int>(viwieSize.y) != static_cast<int>(m_ViwiePortSize.y)) && !m_ImGuiIO->MouseDown[0])
+		{
+			delete m_TargetTexture;
+			m_TargetTexture = new Texture2D(static_cast<int>(viwieSize.x), static_cast<int>(viwieSize.y));
+			m_ViwiePortSize.x = viwieSize.x;
+			m_ViwiePortSize.y = viwieSize.y;
+		}
+
+		m_TargetTexture->Bind();
+		ImGui::Image((void*)(intptr_t)(m_TargetTexture->GetID()), ImVec2(static_cast<float>(viwieSize.x), static_cast<float>(viwieSize.y - 8.0)), ImVec2(0.f, 1.f), ImVec2(1.f, 0.f)); //Draw target texture
+		m_TargetTexture->Unbind();
+	}
+	ImGui::End();
+
+	//Property Panle 
+	ImGui::Begin("Properties");
+	{
+		ImVec2 viwieSize = ImGui::GetContentRegionMax();
+
+		if (ImGui::Button("Trace",ImVec2(viwieSize.x, 30)))
+		{
+			//Start Ray Tracing
+		}
+	}
+	ImGui::End();
+
+	// -------------------------------------------------------------------//
+	
+
+	// Rendering
+	ImGui::Render();
+	int display_w, display_h;
+	glfwGetFramebufferSize(m_Window, &display_w, &display_h);
+	glViewport(0, 0, display_w, display_h);
+	glClear(GL_COLOR_BUFFER_BIT);
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	// Update and Render additional Platform Windows
+	// (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+	if (m_ImGuiIO->ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		GLFWwindow* backup_current_context = glfwGetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		glfwMakeContextCurrent(backup_current_context);
+	}
+
+	
+
+
+	glfwSwapBuffers(m_Window);
+
+}
+
+
