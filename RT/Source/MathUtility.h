@@ -17,7 +17,7 @@ namespace mu
 	{
 		double x, y, z;
 		
-		vec3(float _x, float _y, float _z);
+		vec3(double _x, double _y, double _z);
 		vec3();
 
 	};
@@ -42,6 +42,46 @@ namespace mu
 		return min + (max - min) * randomDouble();
 	}
 
+	//================================= vec3 opeartors =================================//
 	
+	inline vec3 operator+(const vec3& a, const vec3& b)
+	{
+		return vec3{ a.x + b.x, a.y + b.y, a.z + b.z };
+	}
+
+	inline vec3 operator-(const vec3& a, const vec3& b)
+	{
+		return vec3{ a.x - b.x, a.y - b.y, a.z - b.z };
+	}
+
+	inline vec3 operator*(const vec3& a, double b)
+	{
+		return vec3{ a.x * b, a.y * b, a.z * b };
+	}
+
+	inline vec3 operator*(double b, const vec3& a)
+	{
+		return vec3{ a.x * b, a.y * b, a.z * b };
+	}
+
+	inline vec3 operator/(const vec3& a, double b)
+	{
+		return a * (1.0 / b);
+	}
+	
+	inline double lenght(const vec3& a)
+	{
+		return std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+	}
+
+	inline double lengthSquared(const vec3& a)
+	{
+		return a.x * a.x + a.y * a.y + a.z * a.z;
+	}
+
+	inline vec3 normalize(const vec3& a)
+	{
+		return a / lenght(a);
+	}
 
 }

@@ -2,7 +2,7 @@
 
 int main()
 {
-	Applciation app(1500, 1500, "RT");
+	Applciation app(1200, 800, "RT");
 
 	app.Start();
     

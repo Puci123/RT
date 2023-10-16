@@ -18,7 +18,7 @@ mu::vec4::vec4()
 }
 
 
-mu::vec3::vec3(float _x, float _y, float _z)
+mu::vec3::vec3(double _x, double _y, double _z)
 {
 	x = _x;
 	y = _y;
