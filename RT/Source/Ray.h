@@ -1,26 +1,20 @@
-#ifndef Ray_h
-#define Ray_h
-
+#pragma once
 #include "MathUtility.h"
-#include <iostream>
-using namespace std;
+
 
 class Ray
 {
-public:
-    Ray(){}
-    Ray(const point3& origin, const vec3& direction) : orig(origin), dir(direction){}
+	public:
+		Ray(mu::vec3 orgin, mu::vec3 dir) : m_Orgin(orgin), m_Dir(dir) {}
+		~Ray() {}
 
-    point3 origin() const {return orig;}
-    vec3 direction() const {return dir;}
-    point3 at(double t)const
-    {
-        return orig +t*dir;
-    }
+		inline mu::vec3 orgin()				const { return m_Orgin; }
+		inline mu::vec3 dir()				const { return m_Dir; }
+		inline mu::vec3 at(float dist)		const { return m_Orgin + m_Dir * dist; }	//Return positon after traveling certian distance 
 
-private:
-    point3 orig;
-    vec3 dir;
+
+	private:
+		mu::vec3 m_Orgin;
+		mu::vec3 m_Dir;
 
 };
-#endif // Ray_h
