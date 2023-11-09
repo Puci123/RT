@@ -7,7 +7,9 @@
 #include "ImGUI/imgui_impl_opengl3.h"
 #include "ImGUI/imgui_impl_glfw.h"
 #include "ImGUI/imgui_internal.h"
+
 #include "Texture2D.h"
+#include "Scean.h"
 
 class Applciation
 {
@@ -32,6 +34,8 @@ class Applciation
 		std::string m_AppName;
 
 		Texture2D* m_TargetTexture;
+		Scean m_Scean;
+
 		mu::vec2 m_ViwiePortSize;
 
 		bool m_IsRunning;

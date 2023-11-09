@@ -57,4 +57,7 @@ void Texture2D::SetPixel(uint32_t x, uint32_t y, mu::vec3 color)
 
 void Texture2D::Update()
 {
+	Bind();
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_Width, m_Height, GL_RGBA, GL_FLOAT, &m_TextureBuffer[0].x);
+	Unbind();
 }

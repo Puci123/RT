@@ -2,6 +2,8 @@
 
 #include "Application.h"
 #include "DebugUtilty.h"
+#include "Renderer.h"
+
 
 Applciation::Applciation(uint32_t windowWidth, uint32_t windowHeight, const std::string& name)
 	: m_WindowHeight(windowHeight), m_WindowWidth(windowWidth), m_AppName(name)
@@ -98,19 +100,32 @@ void Applciation::PerFrame()
 		}
 
 		m_TargetTexture->Bind();
-		ImGui::Image((void*)(intptr_t)(m_TargetTexture->GetID()), ImVec2(static_cast<float>(viwieSize.x), static_cast<float>(viwieSize.y - 8.0)), ImVec2(0.f, 1.f), ImVec2(1.f, 0.f)); //Draw target texture
+		ImGui::Image((void*)(intptr_t)(m_TargetTexture->GetID()), ImVec2(static_cast<float>(viwieSize.x), static_cast<float>(viwieSize.y - 8.0)), ImVec2(0.f, 0.f), ImVec2(1.f, 1.f)); //Draw target texture
 		m_TargetTexture->Unbind();
 	}
 	ImGui::End();
 
 	//Property Panle 
-	ImGui::Begin("Properties");
+	ImGui::Begin("MENU");
 	{
 		ImVec2 viwieSize = ImGui::GetContentRegionMax();
 
 		if (ImGui::Button("Trace",ImVec2(viwieSize.x, 30)))
 		{
-			//Start Ray Tracing
+			Rendere::Trace(m_TargetTexture, m_Scean);
+			m_TargetTexture->Update();
+		}
+
+		if (ImGui::CollapsingHeader("Background"))
+		{
+			float uppColor[3]{static_cast<float>(m_Scean.colorUp.x),    static_cast<float>(m_Scean.colorUp.y),   static_cast<float>(m_Scean.colorUp.z)};
+			float dowColor[3]{static_cast<float>(m_Scean.colorDown.x),  static_cast<float>(m_Scean.colorDown.y), static_cast<float>(m_Scean.colorDown.z)};
+
+			ImGui::ColorEdit3("Up   color", uppColor);
+			ImGui::ColorEdit3("Down color", dowColor);
+
+			m_Scean.colorUp   = mu::vec3(uppColor[0], uppColor[1], uppColor[2]);
+			m_Scean.colorDown = mu::vec3(dowColor[0], dowColor[1], dowColor[2]);
 		}
 	}
 	ImGui::End();
