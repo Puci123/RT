@@ -1,20 +1,35 @@
 #include <iostream>
 
 #include "Renderer.h"
+#include "Shape.h"
 #include "Ray.h"
 
 
 
 
-inline mu::vec3 RayColor(Ray& ray, const Scean& scean) 
+
+inline mu::vec3 RayColor(const Ray& ray, const Scean& scean, int32_t depth) 
 {
-	double t = 0.5 * (ray.dir().y + 1.0);
-	return (1.0 - t) * scean.colorDown + t * scean.colorUp;
+	
+	if (depth < 0) return mu::vec3(0, 0, 0);
+
+	HitInfo hitInfo;
+
+	if (scean.CheckHit(ray,hitInfo))
+	{
+		mu::vec3 reflectionDir = mu::ranodmOnHemisphere(hitInfo.normal);
+		return 0.5f * RayColor(Ray(hitInfo.point, reflectionDir), scean ,depth - 1);
+	}
+	else
+	{
+		double t = 0.5 * (ray.dir().y + 1.0);
+		return (1.0 - t) * scean.M_ColorDown + t * scean.M_ColorUp;
+	}
 
 }
 
 
-void Rendere::Trace(Texture2D* const target, const Scean& scean)
+void Rendere::Trace(Texture2D* const target, const Scean& scean, int32_t maxDepth, int32_t samplePerPixel)
 {
 	double aspectRatio		= static_cast<double>(target->GetWidth()) / static_cast<double>(target->GetHeight());
 	
@@ -37,20 +52,30 @@ void Rendere::Trace(Texture2D* const target, const Scean& scean)
 	std::cout << "Rendering image with size: " << target->GetWidth() << "x" << target->GetHeight() << std::endl << std::endl;
 	
 	//Cast Rays
-	for (int32_t y = 0; y < target->GetHeight(); y++)
+	for (uint32_t y = 0; y < target->GetHeight(); y++)
 	{
 		std::clog << "\rScanlines remaining: " << (target->GetHeight() - y) << ' ' << std::flush;
 
-		for (int32_t x = 0; x < target->GetWidth(); x++)
+		for (uint32_t x = 0; x < target->GetWidth(); x++)
 		{
-			mu::vec3 pixelCenter = pixelLoc + (x * pixDeltaU) + (y * pixDeltaV);
-			mu::vec3 rayDir = mu::normalize(pixelCenter - camCeneter);
+			
+			mu::vec3 pixelColor = mu::vec3(0, 0, 0);
 
-			Ray ray(camCeneter, rayDir);
-			mu::vec3 pixelColor = RayColor(ray, scean);
+			for (int32_t sample = 0; sample < samplePerPixel; sample++)
+			{
+			
 
-			target->SetPixel(x, y, pixelColor);
+				mu::vec3 sampleSquer = pixDeltaU * (-0.5 + mu::randomDouble()) + pixDeltaV * (-0.5 + mu::randomDouble());
+				mu::vec3 pixelCenter = pixelLoc + (x * pixDeltaU) + (y * pixDeltaV) + sampleSquer;
 
+				mu::vec3 rayDir = mu::normalize(pixelCenter - camCeneter);
+
+				Ray ray(camCeneter, rayDir);
+				pixelColor = pixelColor + RayColor(ray, scean, maxDepth);
+
+			}
+
+			target->SetPixel(x, y, pixelColor / static_cast<double>(samplePerPixel));
 		}
 	}
 

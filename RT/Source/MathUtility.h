@@ -30,17 +30,7 @@ namespace mu
 		vec4();
 	};
 
-	//================================= RANDOM FUNCTIONS =================================//
 
-	inline double randomDouble() 
-	{
-		return (static_cast<double>(rand()) / RAND_MAX);
-	}
-
-	inline double randomDouble(double min, double max) 
-	{
-		return min + (max - min) * randomDouble();
-	}
 
 	//================================= vec3 opeartors =================================//
 	
@@ -82,6 +72,56 @@ namespace mu
 	inline vec3 normalize(const vec3& a)
 	{
 		return a / lenght(a);
+	}
+
+	inline double dot(const vec3& a, const vec3& b) 
+	{
+		return (a.x * b.x + a.y * b.y + a.z * b.z);
+	}
+
+
+	//================================= RANDOM FUNCTIONS =================================//
+
+	inline double randomDouble()
+	{
+		return (static_cast<double>(rand()) / RAND_MAX);
+	}
+
+	inline double randomDouble(double min, double max)
+	{
+		return min + (max - min) * randomDouble();
+	}
+
+	inline vec3 randomVector(double min, double max)
+	{
+		return vec3(randomDouble(min, max), randomDouble(min, max), randomDouble(min, max));
+	}
+
+	inline vec3 randomInUnitSphere()
+	{
+		//TODO: 
+		while (true)
+		{
+			vec3 p = randomVector(-1, 1);
+
+			if (lenght(p) < 1) return p;
+
+		}
+	}
+
+	inline vec3 randomUnitVector()
+	{
+		return normalize(randomInUnitSphere());
+	}
+
+	inline vec3 ranodmOnHemisphere(const vec3& normal)
+	{
+		vec3 unitVec = randomUnitVector();
+
+		if (dot(unitVec, normal) > 0.0) return unitVec;
+
+		return -1 * unitVec;
+
 	}
 
 }

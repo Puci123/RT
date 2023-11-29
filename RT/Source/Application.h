@@ -11,6 +11,11 @@
 #include "Texture2D.h"
 #include "Scean.h"
 
+
+
+
+
+
 class Applciation
 {
 	public:
@@ -39,6 +44,9 @@ class Applciation
 		mu::vec2 m_ViwiePortSize;
 
 		bool m_IsRunning;
+
+		int32_t m_MaxDepth = 5;
+		int32_t m_SamplesPerPixel = 50;
 
 };
 

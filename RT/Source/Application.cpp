@@ -68,6 +68,11 @@ Applciation::~Applciation()
 void Applciation::Start()
 {
 	std::cout << "App is starting" << std::endl;
+	
+
+	m_Scean.M_Shapes.push_back(Shape(0, 0, -1, 0.5));
+	m_Scean.M_Shapes.push_back(Shape(0, -100.5, -1, 100));
+
 }
 
 void Applciation::PerFrame()
@@ -112,20 +117,26 @@ void Applciation::PerFrame()
 
 		if (ImGui::Button("Trace",ImVec2(viwieSize.x, 30)))
 		{
-			Rendere::Trace(m_TargetTexture, m_Scean);
+			Rendere::Trace(m_TargetTexture, m_Scean, 5,50); //TODO: 10, 100 are temporary values
 			m_TargetTexture->Update();
 		}
 
 		if (ImGui::CollapsingHeader("Background"))
 		{
-			float uppColor[3]{static_cast<float>(m_Scean.colorUp.x),    static_cast<float>(m_Scean.colorUp.y),   static_cast<float>(m_Scean.colorUp.z)};
-			float dowColor[3]{static_cast<float>(m_Scean.colorDown.x),  static_cast<float>(m_Scean.colorDown.y), static_cast<float>(m_Scean.colorDown.z)};
+			float uppColor[3]{static_cast<float>(m_Scean.M_ColorUp.x),    static_cast<float>(m_Scean.M_ColorUp.y),   static_cast<float>(m_Scean.M_ColorUp.z)};
+			float dowColor[3]{static_cast<float>(m_Scean.M_ColorDown.x),  static_cast<float>(m_Scean.M_ColorDown.y), static_cast<float>(m_Scean.M_ColorDown.z)};
 
 			ImGui::ColorEdit3("Up   color", uppColor);
 			ImGui::ColorEdit3("Down color", dowColor);
 
-			m_Scean.colorUp   = mu::vec3(uppColor[0], uppColor[1], uppColor[2]);
-			m_Scean.colorDown = mu::vec3(dowColor[0], dowColor[1], dowColor[2]);
+			m_Scean.M_ColorUp = mu::vec3(uppColor[0], uppColor[1], uppColor[2]);
+			m_Scean.M_ColorDown = mu::vec3(dowColor[0], dowColor[1], dowColor[2]);
+		}
+
+		if (ImGui::CollapsingHeader("Renderer setings")) 
+		{
+			ImGui::DragInt("Max depth", &m_MaxDepth, 1, 1, 10000);
+			ImGui::DragInt("Samples per pixel", &m_SamplesPerPixel, 1, 1, 10000);
 		}
 	}
 	ImGui::End();

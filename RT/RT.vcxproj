@@ -148,6 +148,8 @@
     <ClCompile Include="Source\MathUtility.cpp" />
     <ClCompile Include="Source\Ray.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
+    <ClCompile Include="Source\Scean.cpp" />
+    <ClCompile Include="Source\Shape.cpp" />
     <ClCompile Include="Source\Texture2D.cpp" />
     <ClCompile Include="Vendor\ImGUI\imgui.cpp" />
     <ClCompile Include="Vendor\ImGUI\imgui_demo.cpp" />
@@ -159,11 +161,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\Color.h" />
     <ClInclude Include="Source\DebugUtilty.h" />
+    <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\MathUtility.h" />
+    <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Ray.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Scean.h" />
+    <ClInclude Include="Source\Shape.h" />
     <ClInclude Include="Source\Texture2D.h" />
     <ClInclude Include="Vendor\ImGUI\imconfig.h" />
     <ClInclude Include="Vendor\ImGUI\imgui.h" />

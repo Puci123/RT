@@ -4,5 +4,6 @@
 
 namespace Rendere 
 {
-	void Trace(Texture2D* const target, const Scean& scean);
+	
+	void Trace(Texture2D* const target, const Scean& scean, int32_t maxDepth, int32_t samplePerPixel);
 }

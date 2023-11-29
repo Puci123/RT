@@ -5,7 +5,7 @@
 class Ray
 {
 	public:
-		Ray(mu::vec3 orgin, mu::vec3 dir) : m_Orgin(orgin), m_Dir(dir) {}
+		Ray(const mu::vec3& orgin, const mu::vec3& dir) : m_Orgin(orgin), m_Dir(dir) {}
 		~Ray() {}
 
 		inline mu::vec3 orgin()				const { return m_Orgin; }
