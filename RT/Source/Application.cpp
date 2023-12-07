@@ -137,7 +137,7 @@ void Applciation::PerFrame()
 
 		if (ImGui::Button("Trace",ImVec2(viwieSize.x, 30)))
 		{
-			Rendere::Trace(m_TargetTexture, m_Scean, 5,50); //TODO: 10, 100 are temporary values
+			Rendere::Trace(m_TargetTexture, m_Scean, m_MaxDepth,m_SamplesPerPixel); 
 			m_TargetTexture->Update();
 		}
 
