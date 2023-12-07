@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "DebugUtilty.h"
 #include "Renderer.h"
-
+#include "Materials.h"
 
 Applciation::Applciation(uint32_t windowWidth, uint32_t windowHeight, const std::string& name)
 	: m_WindowHeight(windowHeight), m_WindowWidth(windowWidth), m_AppName(name)
@@ -69,9 +69,17 @@ void Applciation::Start()
 {
 	std::cout << "App is starting" << std::endl;
 	
+	Material mat1;
+	mat1.allbedo = mu::vec3(0.7803921568627451, 0.06666666666666667, 0.6431372549019608);
+	mat1.materialType = Material::MaterialType::Diffues;
 
-	m_Scean.M_Shapes.push_back(Shape(0, 0, -1, 0.5));
-	m_Scean.M_Shapes.push_back(Shape(0, -100.5, -1, 100));
+	Material mat2;
+	mat2.allbedo = mu::vec3(0, 0.3254901960784314, 0.5843137254901961);
+	mat2.materialType = Material::MaterialType::Diffues;
+
+
+	m_Scean.M_Shapes.push_back(Shape(0, 0, -1, 0.5,mat1));
+	m_Scean.M_Shapes.push_back(Shape(0, -100.5, -1, 100,mat2));
 
 }
 

@@ -57,10 +57,16 @@ namespace mu
 		return vec3{ a.x * b, a.y * b, a.z * b };
 	}
 
+	inline vec3 operator*(const vec3& a, const vec3& b) 
+	{
+		return vec3{ a.x * b.x, a.y * b.y, a.z * b.z };
+	}
+
 	inline vec3 operator/(const vec3& a, double b)
 	{
 		return a * (1.0 / b);
 	}
+
 	
 	inline double lenght(const vec3& a)
 	{

@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Materials.cpp" />
     <ClCompile Include="Source\MathUtility.cpp" />
     <ClCompile Include="Source\Ray.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
@@ -163,7 +164,7 @@
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Color.h" />
     <ClInclude Include="Source\DebugUtilty.h" />
-    <ClInclude Include="Source\Material.h" />
+    <ClInclude Include="Source\Materials.h" />
     <ClInclude Include="Source\MathUtility.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Ray.h" />
