@@ -5,11 +5,13 @@
 
 struct Material
 {
-	enum MaterialType
+	enum class MaterialType
 	{
-		Diffues
+		Diffues,
+		Metalic
 	};
 
+	float fuzzines = 0;
 	mu::vec3 allbedo;
 	MaterialType materialType;
 	

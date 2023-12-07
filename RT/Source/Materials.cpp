@@ -8,10 +8,12 @@ Ray Material::Reflect(const Ray& ray, mu::vec3& point, const mu::vec3& normal) c
 
 	switch (materialType)
 	{
-		case Material::Diffues:
+		case MaterialType::Diffues:
 			dir = normal + mu::ranodmOnHemisphere(normal);
 			return Ray(orgin, dir);
-			break;
+		case MaterialType::Metalic:
+			dir = ray.dir() - 2 * mu::dot(ray.dir(), normal) * normal + fuzzines * mu::randomUnitVector();
+			return Ray(orgin, dir);
 		default:
 			//INVALID MATERIAL TYPE
 			ASSERT(false);
