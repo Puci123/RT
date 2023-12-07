@@ -13,15 +13,6 @@ namespace mu
 			
 	};
 
-	struct vec3
-	{
-		double x, y, z;
-		
-		vec3(double _x, double _y, double _z);
-		vec3();
-
-	};
-
 	struct vec4
 	{
 		float x, y, z, w;
@@ -29,6 +20,18 @@ namespace mu
 		vec4(float _x, float _y, float _z, float _w);
 		vec4();
 	};
+
+	struct vec3
+	{
+		double x, y, z;
+		
+		vec3();
+		vec3(double _x, double _y, double _z);
+		vec3(vec4 v);
+
+	};
+
+	
 
 
 

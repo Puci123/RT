@@ -20,6 +20,7 @@ class Texture2D
 		inline uint32_t GetWidth()	const  { return m_Width; }
 		inline uint32_t GetHeight() const  { return m_Height; }
 		inline uint32_t GetID()     const { return m_RenderID; }
+		inline mu::vec4 GetPixel(int32_t x, int32_t y) const { return m_TextureBuffer[y * m_Width + x]; }
 
 
 	private:

@@ -121,6 +121,13 @@ void Applciation::PerFrame()
 			m_TargetTexture->Update();
 		}
 
+		if (ImGui::Button("Corect alpha", ImVec2(viwieSize.x, 30)))
+		{
+			Rendere::AlphaCorrect(m_TargetTexture);
+			m_TargetTexture->Update();
+		}
+
+
 		if (ImGui::CollapsingHeader("Background"))
 		{
 			float uppColor[3]{static_cast<float>(m_Scean.M_ColorUp.x),    static_cast<float>(m_Scean.M_ColorUp.y),   static_cast<float>(m_Scean.M_ColorUp.z)};

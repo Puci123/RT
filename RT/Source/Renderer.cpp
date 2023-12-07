@@ -81,3 +81,17 @@ void Rendere::Trace(Texture2D* const target, const Scean& scean, int32_t maxDept
 
 	std::clog << "\rDone.                 \n";
 }
+
+void Rendere::AlphaCorrect(Texture2D* const target)
+{
+	for (int32_t y = 0; y < target->GetHeight(); y++)
+	{
+		for (int32_t x = 0; x < target->GetWidth(); x++)
+		{
+			mu::vec3 temp = static_cast<mu::vec3>(target->GetPixel(x, y));
+			temp = mu::vec3(sqrt(temp.x), sqrt(temp.y), sqrt(temp.z));
+
+			target->SetPixel(x, y, temp);
+		}
+	}
+}
