@@ -5,17 +5,7 @@
 #include "Materials.h"
 
 
-struct HitInfo
-{
-	mu::vec3 point;
-	mu::vec3 normal;
 
-	Material material;
-
-	double t = 0;
-	bool isFrontFace = true;
-
-};
 
 struct Shape
 {

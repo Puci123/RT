@@ -87,9 +87,18 @@ void Applciation::Start()
 	metalic2.fuzzines = 0.0f;
 	metalic2.materialType = Material::MaterialType::Metalic;
 
+	Material dieclectic;
+	dieclectic.materialType = Material::MaterialType::Dielectict;
+	dieclectic.allbedo = mu::vec3(1, 0.8, 0.8);
+	dieclectic.refractionRatio = 1.5f;
 
-	m_Scean.M_Shapes.push_back(Shape(0, 0, -1.5, 0.5,mat1));
-	m_Scean.M_Shapes.push_back(Shape(1.75, 0, -2, 0.5, metalic1));
+
+
+	m_Scean.M_Shapes.push_back(Shape(0, 0, -1.5, 0.5, mat1));
+	
+	m_Scean.M_Shapes.push_back(Shape(1.75, 0, -2,   0.5, dieclectic));
+
+
 	m_Scean.M_Shapes.push_back(Shape(-1.75, 0, -2, 0.5, metalic2));
 	m_Scean.M_Shapes.push_back(Shape(0, -100.5, -1, 100,mat2));
 
