@@ -30,9 +30,9 @@ inline mu::vec3 RayColor(const Ray& ray, const Scean& scean, int32_t depth)
 }
 
 
-void Rendere::Trace(Texture2D* const target, const Scean& scean, int32_t maxDepth, int32_t samplePerPixel)
+void Rendere::Trace(Texture2D& target,  Scean& scean, int32_t maxDepth, int32_t samplePerPixel,int32_t start, int32_t stop)
 {
-	double aspectRatio		= static_cast<double>(target->GetWidth()) / static_cast<double>(target->GetHeight());
+	double aspectRatio		= static_cast<double>(target.GetWidth()) / static_cast<double>(target.GetHeight());
 	
 	//Camera Parameters
 	double focalLenght		= 1;
@@ -43,21 +43,18 @@ void Rendere::Trace(Texture2D* const target, const Scean& scean, int32_t maxDept
 	mu::vec3 viewportV		= mu::vec3{ 0,-viwiePortHeight,0 };
 
 	//Calculate the horizontal and vertical delta vectors from pixel to pixel.
-	mu::vec3 pixDeltaU = viewportU / static_cast<double>(target->GetWidth());
-	mu::vec3 pixDeltaV = viewportV / static_cast<double>(target->GetHeight());
+	mu::vec3 pixDeltaU = viewportU / static_cast<double>(target.GetWidth());
+	mu::vec3 pixDeltaV = viewportV / static_cast<double>(target.GetHeight());
 
 	//Upper left pixel location
 	mu::vec3 viwiePortUpperLeft = camCeneter - mu::vec3(0, 0, focalLenght) - viewportU / 2 - viewportV / 2;
 	mu::vec3 pixelLoc			= viwiePortUpperLeft + 0.5 * (pixDeltaU + pixDeltaV);
-
-	std::cout << "Rendering image with size: " << target->GetWidth() << "x" << target->GetHeight() << std::endl << std::endl;
 	
 	//Cast Rays
-	for (uint32_t y = 0; y < target->GetHeight(); y++)
+	for (int32_t y = start; y < stop; y++)
 	{
-		std::clog << "\rScanlines remaining: " << (target->GetHeight() - y) << ' ' << std::flush;
-
-		for (uint32_t x = 0; x < target->GetWidth(); x++)
+		
+		for (int32_t x = 0; x < target.GetWidth(); x++)
 		{
 			
 			mu::vec3 pixelColor = mu::vec3(0, 0, 0);
@@ -76,12 +73,11 @@ void Rendere::Trace(Texture2D* const target, const Scean& scean, int32_t maxDept
 
 			}
 
-			target->SetPixel(x, y, pixelColor / static_cast<double>(samplePerPixel));
+			target.SetPixel(x, y, pixelColor / static_cast<double>(samplePerPixel));
 		}
 	}
-
-	std::clog << "\rDone.                 \n";
 }
+
 
 void Rendere::AlphaCorrect(Texture2D* const target)
 {

@@ -152,6 +152,8 @@
     <ClCompile Include="Source\Scean.cpp" />
     <ClCompile Include="Source\Shape.cpp" />
     <ClCompile Include="Source\Texture2D.cpp" />
+    <ClCompile Include="Source\ThreadPool.cpp" />
+    <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Vendor\ImGUI\imgui.cpp" />
     <ClCompile Include="Vendor\ImGUI\imgui_demo.cpp" />
     <ClCompile Include="Vendor\ImGUI\imgui_draw.cpp" />
@@ -164,6 +166,7 @@
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Color.h" />
     <ClInclude Include="Source\DebugUtilty.h" />
+    <ClInclude Include="Source\Interval.h" />
     <ClInclude Include="Source\Materials.h" />
     <ClInclude Include="Source\MathUtility.h" />
     <ClInclude Include="Source\Object.h" />
@@ -172,6 +175,8 @@
     <ClInclude Include="Source\Scean.h" />
     <ClInclude Include="Source\Shape.h" />
     <ClInclude Include="Source\Texture2D.h" />
+    <ClInclude Include="Source\ThreadPool.h" />
+    <ClInclude Include="Source\Timer.h" />
     <ClInclude Include="Vendor\ImGUI\imconfig.h" />
     <ClInclude Include="Vendor\ImGUI\imgui.h" />
     <ClInclude Include="Vendor\ImGUI\imgui_impl_glfw.h" />

@@ -18,7 +18,7 @@ struct Material
 	float fuzzines = 0;
 	float refractionRatio = 0.5f;
 	mu::vec3 allbedo;
-	MaterialType materialType;
+	MaterialType materialType = MaterialType::Diffues;
 	
 
 	Ray Reflect(const Ray& ray, HitInfo& hitInfo) const;

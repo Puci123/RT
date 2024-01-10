@@ -1,5 +1,6 @@
 ﻿#include "Application.h"
 
+
 int main()
 {
 	Applciation app(1200, 800, "RT");

@@ -4,6 +4,15 @@
 
 namespace mu
 {
+	//================================= constvalues =================================//
+
+	constexpr double epsilon  = 0.00001;
+	constexpr double inifinty = std::numeric_limits<double>::max();
+
+
+
+	//================================= vectors =================================//
+
 	struct vec2
 	{
 		double x, y;
