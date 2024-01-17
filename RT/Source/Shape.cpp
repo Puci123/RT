@@ -43,6 +43,15 @@ bool CheckHitSphere(const Ray& ray, const Shape& shape, HitInfo& hitInfo)
 
     //flip normal if it is back face
     hitInfo.normal = hitInfo.isFrontFace ? hitInfo.normal : -1 *hitInfo.normal;
+
+    //Set uv cords for texture sampling
+    double theta = acos(-hitInfo.point.y);
+    double phi = atan2(-hitInfo.point.z, hitInfo.point.x) + mu::pi;
+
+    hitInfo.uv.x = phi / (2 * mu::pi);
+    hitInfo.uv.y = theta / mu::pi;
+
+
     return true;
 
 }

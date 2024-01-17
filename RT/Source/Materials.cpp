@@ -38,15 +38,25 @@ Ray Material::Reflect(const Ray& ray, HitInfo& hitInfo) const
 {
     mu::vec3 orgin = hitInfo.point + hitInfo.normal * 0.0001; //prevent self shadowing
     mu::vec3 dir;
+	
 
 	switch (materialType)
 	{
 		case MaterialType::Diffues:
 			dir = hitInfo.normal + mu::ranodmOnHemisphere(hitInfo.normal);
 			return Ray(orgin, dir);
+			break;
+
 		case MaterialType::Metalic:
 			dir = ray.dir() - 2 * mu::dot(ray.dir(), hitInfo.normal) * hitInfo.normal + fuzzines * mu::randomUnitVector();
 			return Ray(orgin, dir);
+			break;
+
+		case MaterialType::Textured:
+			dir = hitInfo.normal + mu::ranodmOnHemisphere(hitInfo.normal);
+			return Ray(orgin, dir);
+			break;
+
 		case MaterialType::Dielectict:
 			double refractionRatio = hitInfo.isFrontFace ? (1.0 / hitInfo.material.refractionRatio) : hitInfo.material.refractionRatio;
 
@@ -59,7 +69,8 @@ Ray Material::Reflect(const Ray& ray, HitInfo& hitInfo) const
 				return Ray(hitInfo.point, reflect(unitDir, hitInfo.normal));
 			else
 				return Ray(hitInfo.point, refract(unitDir, hitInfo.normal, refractionRatio));
-
+			break;
+		
 
 		//INVALID MATERIAL TYPE
 		ASSERT(false);
@@ -67,7 +78,20 @@ Ray Material::Reflect(const Ray& ray, HitInfo& hitInfo) const
 	}
 }
 
-mu::vec3 Material::GetColor()
+mu::vec3 Material::GetColor(HitInfo& hitInfo)
 {
-    return mu::vec3();
+	switch (materialType)
+	{
+		case Material::MaterialType::Diffues:    return allbedo;
+		case Material::MaterialType::Metalic:	 return allbedo;
+		case Material::MaterialType::Dielectict: return allbedo;
+		case Material::MaterialType::Textured:
+			int32_t xCord = hitInfo.uv.x * texture->GetWidth();
+			int32_t yCord = hitInfo.uv.y * texture->GetHeight();
+
+			return texture->GetPixel(xCord, yCord);
+
+		//invalid material type
+		ASSERT(false);
+	}
 }

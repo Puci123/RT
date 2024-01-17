@@ -19,7 +19,8 @@ inline mu::vec3 RayColor(const Ray& ray, const Scean& scean, int32_t depth)
 	{
 		mu::vec3 reflectionDir = mu::ranodmOnHemisphere(hitInfo.normal);
 		Ray reflected = hitInfo.material.Reflect(ray, hitInfo);
-		return  hitInfo.material.allbedo * RayColor(reflected, scean ,depth - 1);
+
+		return  hitInfo.material.GetColor(hitInfo)  * RayColor(reflected, scean ,depth - 1);
 	}
 	else
 	{

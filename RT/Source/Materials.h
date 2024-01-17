@@ -1,7 +1,7 @@
 #pragma once
 #include "MathUtility.h"
 #include "Ray.h"
-
+#include "Texture2D.h"
 
 
 struct  HitInfo;
@@ -12,7 +12,8 @@ struct Material
 	{
 		Diffues,
 		Metalic,
-		Dielectict
+		Dielectict,
+		Textured
 	};
 
 	float fuzzines = 0;
@@ -22,7 +23,8 @@ struct Material
 	
 
 	Ray Reflect(const Ray& ray, HitInfo& hitInfo) const;
-	mu::vec3 GetColor();
+	Texture2D* texture = nullptr;
+	mu::vec3 GetColor(HitInfo& hitInfo);
 };
 
 
@@ -30,6 +32,7 @@ struct HitInfo
 {
 	mu::vec3 point;
 	mu::vec3 normal;
+	mu::vec2 uv; //Used for texture maping
 
 	Material material;
 

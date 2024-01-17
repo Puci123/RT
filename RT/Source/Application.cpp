@@ -70,6 +70,10 @@ Applciation::~Applciation()
 {
 }
 
+
+
+//================================== Execure once after construting object ==================================//
+
 void Applciation::Start()
 {
 	std::cout << "App is starting" << std::endl;
@@ -97,9 +101,14 @@ void Applciation::Start()
 	dieclectic.allbedo = mu::vec3(1, 1.0, 1.0);
 	dieclectic.refractionRatio = 1.5f;
 
+	Material textured;
+	textured.materialType = Material::MaterialType::Textured;
+	Texture2D* testTexture = new Texture2D(1000, 1000);
+	textured.texture = testTexture;
 
 
-	m_Scean.M_Shapes.push_back(Shape(0, 0, -1.5, 0.5, mat1));
+
+	m_Scean.M_Shapes.push_back(Shape(0, 0, -1.5, 0.5, textured));
 	
 	m_Scean.M_Shapes.push_back(Shape(1.75, 0, -2,   0.5, dieclectic));
 
@@ -108,7 +117,6 @@ void Applciation::Start()
 	m_Scean.M_Shapes.push_back(Shape(0, -100.5, -1, 100,mat2));
 
 }
-
 
 
 //================================== MULTI THREAD ================================== //

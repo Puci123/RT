@@ -6,8 +6,9 @@ namespace mu
 {
 	//================================= constvalues =================================//
 
-	constexpr double epsilon  = 0.00001;
-	constexpr double inifinty = std::numeric_limits<double>::max();
+	constexpr double epsilon	= 0.00001;
+	constexpr double inifinty	= std::numeric_limits<double>::max();
+	constexpr double pi			= 3.14159265359;
 
 
 

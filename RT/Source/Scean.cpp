@@ -32,6 +32,7 @@ bool Scean::CheckHit(const Ray& ray, HitInfo& hitInfo) const
 			hitInfo.normal = temp.normal;
 			hitInfo.isFrontFace = temp.isFrontFace;
 			hitInfo.material = temp.material;
+			hitInfo.uv = temp.uv;
 		}
 	}
 
