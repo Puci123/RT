@@ -140,5 +140,19 @@
     <ClInclude Include="Source\ThreadPool.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="Vendor\Stbi\stb_image.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="Vendor\Stbi\stbi_image.cpp">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\earthmap.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="Resources\Textures\moon_map.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
   </ItemGroup>
 </Project>

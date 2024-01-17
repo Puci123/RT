@@ -103,7 +103,9 @@ void Applciation::Start()
 
 	Material textured;
 	textured.materialType = Material::MaterialType::Textured;
-	Texture2D* testTexture = new Texture2D(1000, 1000);
+	Texture2D* testTexture = new Texture2D("Resources\\Textures\\moon_map.jpg");
+	//Texture2D* testTexture = new Texture2D(1024,1024);
+
 	textured.texture = testTexture;
 
 
@@ -114,7 +116,7 @@ void Applciation::Start()
 
 
 	m_Scean.M_Shapes.push_back(Shape(-1.75, 0, -2, 0.5, metalic2));
-	m_Scean.M_Shapes.push_back(Shape(0, -100.5, -1, 100,mat2));
+	m_Scean.M_Shapes.push_back(Shape(0, -100.5, -1, 100, mat1));
 
 }
 

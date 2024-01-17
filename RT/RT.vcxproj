@@ -186,6 +186,12 @@
     <ClInclude Include="Vendor\ImGUI\imstb_rectpack.h" />
     <ClInclude Include="Vendor\ImGUI\imstb_textedit.h" />
     <ClInclude Include="Vendor\ImGUI\imstb_truetype.h" />
+    <ClInclude Include="Vendor\Stbi\stbi_image.cpp" />
+    <ClInclude Include="Vendor\Stbi\stb_image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\earthmap.jpg" />
+    <Image Include="Resources\Textures\moon_map.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
