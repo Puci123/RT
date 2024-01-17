@@ -1,10 +1,13 @@
 #include "Texture2D.h"
 #include "DebugUtilty.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "Stbi/stb_image.h"
+
 Texture2D::Texture2D(uint32_t width, uint32_t height) 
 	:m_RenderID(0), m_Width(width), m_Height(height)
 {
-	m_TextureBuffer.resize(width * height);
+	m_TextureBuffer = new mu::vec4[m_Height * m_Width];
 
 	for (uint32_t i = 0; i < width * height; i++)
 	{
@@ -27,10 +30,38 @@ Texture2D::Texture2D(uint32_t width, uint32_t height)
 
 }
 
+Texture2D::Texture2D(const std::string& path)
+	:m_Height(0), m_Width(0), m_RenderID(0)
+{
+	//TO D0: Make it work with float as buffer data type
+
+	stbi_set_flip_vertically_on_load(1);
+	stbi_hdr_to_ldr_gamma(2.2f);
+	int32_t bits;
+
+	m_TextureBuffer = reinterpret_cast<mu::vec4*>(stbi_loadf(path.c_str(), &m_Width, &m_Height, &bits, 4));
+	
+	
+
+	(glGenTextures(1, &m_RenderID));
+	(glBindTexture(GL_TEXTURE_2D, m_RenderID));
+
+	(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+	(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+	(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+	(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+
+
+	(glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,m_Width,m_Height,0,GL_RGBA,GL_FLOAT, &m_TextureBuffer[0]));
+	(glBindTexture(GL_TEXTURE_2D,0));
+
+
+}
+
 Texture2D::~Texture2D()
 {
 	std::cout << "Texture destroyed with ID " << m_RenderID << std::endl;
-	m_TextureBuffer = std::vector<mu::vec4>();
+	delete[] m_TextureBuffer;
 	glDeleteTextures(1, &m_RenderID);
 
 }

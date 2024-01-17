@@ -1,13 +1,16 @@
 #pragma once
 #include <GL/glew.h>
 #include<vector>
+#include<string>
 
 #include "MathUtility.h"
+
 
 class Texture2D
 {
 	public:
 		Texture2D(uint32_t width, uint32_t height);
+		Texture2D(const std::string& path);
 		~Texture2D();
 
 
@@ -20,14 +23,15 @@ class Texture2D
 		inline uint32_t GetWidth()	const  { return m_Width; }
 		inline uint32_t GetHeight() const  { return m_Height; }
 		inline uint32_t GetID()     const { return m_RenderID; }
+		inline mu::vec4 GetPixel(int32_t x, int32_t y) const { return m_TextureBuffer[y * m_Width + x]; }
 
 
 	private:
 		uint32_t m_RenderID;
-		uint32_t m_Width;
-		uint32_t m_Height;
+		int32_t m_Width;
+		int32_t m_Height;
 
-		std::vector<mu::vec4> m_TextureBuffer;
+		mu::vec4* m_TextureBuffer;
 
 };
 

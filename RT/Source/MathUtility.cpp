@@ -14,9 +14,16 @@ mu::vec4::vec4()
 	x = 0;
 	y = 0;
 	z = 0;
-	w = 0;
+	w = 1;
 }
 
+
+mu::vec3::vec3(vec4 v)
+{
+	x = v.x;
+	y = v.y;
+	z = v.z;
+}
 
 mu::vec3::vec3(double _x, double _y, double _z)
 {

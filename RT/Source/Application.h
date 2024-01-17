@@ -10,7 +10,8 @@
 
 #include "Texture2D.h"
 #include "Scean.h"
-
+#include "ThreadPool.h"
+#include "Timer.h"
 
 
 
@@ -43,10 +44,15 @@ class Applciation
 
 		mu::vec2 m_ViwiePortSize;
 
-		bool m_IsRunning;
+		bool	 m_IsRunning;
+		bool	m_IsRendering = false;
+		int32_t m_BatchSize = 4;
 
 		int32_t m_MaxDepth = 5;
 		int32_t m_SamplesPerPixel = 50;
+
+		ThreadPool m_ThreadPool;
+		Timer m_Timer;
 
 };
 

@@ -4,6 +4,16 @@
 
 namespace mu
 {
+	//================================= constvalues =================================//
+
+	constexpr double epsilon	= 0.00001;
+	constexpr double inifinty	= std::numeric_limits<double>::max();
+	constexpr double pi			= 3.14159265359;
+
+
+
+	//================================= vectors =================================//
+
 	struct vec2
 	{
 		double x, y;
@@ -13,15 +23,6 @@ namespace mu
 			
 	};
 
-	struct vec3
-	{
-		double x, y, z;
-		
-		vec3(double _x, double _y, double _z);
-		vec3();
-
-	};
-
 	struct vec4
 	{
 		float x, y, z, w;
@@ -29,6 +30,18 @@ namespace mu
 		vec4(float _x, float _y, float _z, float _w);
 		vec4();
 	};
+
+	struct vec3
+	{
+		double x, y, z;
+		
+		vec3();
+		vec3(double _x, double _y, double _z);
+		vec3(vec4 v);
+
+	};
+
+	
 
 
 
@@ -54,10 +67,16 @@ namespace mu
 		return vec3{ a.x * b, a.y * b, a.z * b };
 	}
 
+	inline vec3 operator*(const vec3& a, const vec3& b) 
+	{
+		return vec3{ a.x * b.x, a.y * b.y, a.z * b.z };
+	}
+
 	inline vec3 operator/(const vec3& a, double b)
 	{
 		return a * (1.0 / b);
 	}
+
 	
 	inline double lenght(const vec3& a)
 	{
@@ -78,6 +97,7 @@ namespace mu
 	{
 		return (a.x * b.x + a.y * b.y + a.z * b.z);
 	}
+
 
 
 	//================================= RANDOM FUNCTIONS =================================//
