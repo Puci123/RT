@@ -148,10 +148,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\Textures\earthmap.jpg">
+    <Image Include="Resources\Textures\moon_map.jpg">
       <Filter>Pliki zasobów</Filter>
     </Image>
-    <Image Include="Resources\Textures\moon_map.jpg">
+    <Image Include="Resources\Textures\mars_map.jpg">
       <Filter>Pliki zasobów</Filter>
     </Image>
   </ItemGroup>

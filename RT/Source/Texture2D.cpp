@@ -35,7 +35,7 @@ Texture2D::Texture2D(const std::string& path)
 {
 	//TO D0: Make it work with float as buffer data type
 
-	stbi_set_flip_vertically_on_load(1);
+	stbi_set_flip_vertically_on_load(0);
 	stbi_hdr_to_ldr_gamma(2.2f);
 	int32_t bits;
 

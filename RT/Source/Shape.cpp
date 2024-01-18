@@ -1,4 +1,5 @@
 #include "Shape.h"
+#include "DebugUtilty.h"
 
 Shape::Shape(mu::vec3 position ,double r, Material mat)
     :pos(position), radius(r), mterial(mat)
@@ -44,13 +45,17 @@ bool CheckHitSphere(const Ray& ray, const Shape& shape, HitInfo& hitInfo)
     //flip normal if it is back face
     hitInfo.normal = hitInfo.isFrontFace ? hitInfo.normal : -1 *hitInfo.normal;
 
+    mu::vec3 temp = (hitInfo.point - shape.pos) / shape.radius;
+
     //Set uv cords for texture sampling
-    double theta = acos(-hitInfo.point.y);
-    double phi = atan2(-hitInfo.point.z, hitInfo.point.x) + mu::pi;
+    double theta = acos(-temp.y);
+    double phi = atan2(-temp.z, temp.x) + mu::pi;
 
     hitInfo.uv.x = phi / (2 * mu::pi);
     hitInfo.uv.y = theta / mu::pi;
 
+    
+  
 
     return true;
 

@@ -72,7 +72,7 @@ Applciation::~Applciation()
 
 
 
-//================================== Execure once after construting object ==================================//
+//================================== Execute once after construting object ==================================//
 
 void Applciation::Start()
 {
@@ -88,12 +88,12 @@ void Applciation::Start()
 
 	Material metalic1;
 	metalic1.allbedo = mu::vec3(1, 1, 1);
-	metalic1.fuzzines = 0.5f;
+	metalic1.fuzzines = 0.0f;
 	metalic1.materialType = Material::MaterialType::Metalic;
 
 	Material metalic2;
 	metalic2.allbedo = mu::vec3(0.541176470588, 0.23921568627450981, 0.4823529411764706);
-	metalic2.fuzzines = 0.0f;
+	metalic2.fuzzines = 0.1f;
 	metalic2.materialType = Material::MaterialType::Metalic;
 
 	Material dieclectic;
@@ -110,12 +110,10 @@ void Applciation::Start()
 
 
 
-	m_Scean.M_Shapes.push_back(Shape(0, 0, -1.5, 0.5, textured));
-	
-	m_Scean.M_Shapes.push_back(Shape(1.75, 0, -2,   0.5, dieclectic));
-
-
+	m_Scean.M_Shapes.push_back(Shape(0, 2, -10, 5, metalic1));
+	m_Scean.M_Shapes.push_back(Shape(0, 0, -2,   0.5,  textured));
 	m_Scean.M_Shapes.push_back(Shape(-1.75, 0, -2, 0.5, metalic2));
+	m_Scean.M_Shapes.push_back(Shape(1.75, 0, -2, 0.5, dieclectic));
 	m_Scean.M_Shapes.push_back(Shape(0, -100.5, -1, 100, mat1));
 
 }

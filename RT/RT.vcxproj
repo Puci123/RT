@@ -190,7 +190,7 @@
     <ClInclude Include="Vendor\Stbi\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\Textures\earthmap.jpg" />
+    <Image Include="Resources\Textures\mars_map.jpg" />
     <Image Include="Resources\Textures\moon_map.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
