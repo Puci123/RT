@@ -54,5 +54,9 @@ class Applciation
 		ThreadPool m_ThreadPool;
 		Timer m_Timer;
 
+
+	private:
+		void CreateScean();
+
 };
 

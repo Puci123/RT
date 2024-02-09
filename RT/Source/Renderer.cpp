@@ -31,31 +31,50 @@ inline mu::vec3 RayColor(const Ray& ray, const Scean& scean, int32_t depth)
 }
 
 
-void Rendere::Trace(Texture2D& target,  Scean& scean, int32_t maxDepth, int32_t samplePerPixel,int32_t start, int32_t stop)
+void  Rendere::Bake(int32_t screanWidth, Rendere::Camera& cam, int32_t screanHeight)
 {
-	double aspectRatio		= static_cast<double>(target.GetWidth()) / static_cast<double>(target.GetHeight());
 	
-	//Camera Parameters
-	double focalLenght		= 1;
-	double viwiePortHeight	= 2.0;
-	double viwiePortWidth	= viwiePortHeight * aspectRatio;
-	mu::vec3 camCeneter		= mu::vec3{ 0,0,0 };
-	mu::vec3 viewportU		= mu::vec3{ viwiePortWidth,0,0 };
-	mu::vec3 viewportV		= mu::vec3{ 0,-viwiePortHeight,0 };
+	cam.lookFrom   = mu::vec3{-2,2,1};
+	cam.lookAt	   = mu::vec3{ 0,0,-1 };
+	cam.up		   = mu::vec3{ 0,1,0 };
+	cam.camCeneter = cam.lookFrom;
 
-	//Calculate the horizontal and vertical delta vectors from pixel to pixel.
-	mu::vec3 pixDeltaU = viewportU / static_cast<double>(target.GetWidth());
-	mu::vec3 pixDeltaV = viewportV / static_cast<double>(target.GetHeight());
 
-	//Upper left pixel location
-	mu::vec3 viwiePortUpperLeft = camCeneter - mu::vec3(0, 0, focalLenght) - viewportU / 2 - viewportV / 2;
-	mu::vec3 pixelLoc			= viwiePortUpperLeft + 0.5 * (pixDeltaU + pixDeltaV);
+	cam.aspectRatio	= static_cast<double>(screanWidth) / static_cast<double>(screanHeight);
+	cam.focalLenght = mu::lenght(cam.lookFrom - cam.lookAt);
+	cam.vFov				= 90;
+
+	double theta = mu::deg2rad(cam.vFov);
+	double h = tan(theta / 2);
+
+
+	cam.viwiePortHeight		= 2 * h * cam.focalLenght;
+	cam.viwiePortWidth		= cam.viwiePortHeight * cam.aspectRatio;
+
+	cam.w = mu::normalize(cam.lookFrom - cam.lookAt);
+	cam.u = mu::normalize(mu::cross(cam.up, cam.w));
+	cam.v = mu::cross(cam.w, cam.u);
+
+	cam.viewportU			= cam.viwiePortWidth * cam.u;
+	cam.viewportV			= cam.viwiePortHeight * (-1 * cam.v);
+
+	cam.pixelDeltaU			= cam.viewportU / static_cast<double>(screanWidth);
+	cam.pixelDeltaV			= cam.viewportV / static_cast<double>(screanHeight);
+	cam.upperLeftPixel		= cam.camCeneter - (cam.focalLenght * cam.w) - cam.viewportU / 2 - cam.viewportV / 2;
+
+
+}
+
+void Rendere::Trace(Texture2D& target,  Scean& scean, static Camera& cam ,int32_t maxDepth, int32_t samplePerPixel,uint32_t start, uint32_t stop)
+{
+	//Curent pixel location
+	mu::vec3 pixelLoc = cam.upperLeftPixel + 0.5 * (cam.pixelDeltaU + cam.pixelDeltaV);
 	
 	//Cast Rays
-	for (int32_t y = start; y < stop; y++)
+	for (uint32_t y = start; y < stop; y++)
 	{
 		
-		for (int32_t x = 0; x < target.GetWidth(); x++)
+		for (uint32_t x = 0; x < target.GetWidth(); x++)
 		{
 			
 			mu::vec3 pixelColor = mu::vec3(0, 0, 0);
@@ -64,12 +83,12 @@ void Rendere::Trace(Texture2D& target,  Scean& scean, int32_t maxDepth, int32_t 
 			{
 			
 
-				mu::vec3 sampleSquer = pixDeltaU * (-0.5 + mu::randomDouble()) + pixDeltaV * (-0.5 + mu::randomDouble());
-				mu::vec3 pixelCenter = pixelLoc + (x * pixDeltaU) + (y * pixDeltaV) + sampleSquer;
+				mu::vec3 sampleSquer = cam.pixelDeltaU * (-0.5 + mu::randomDouble()) + cam.pixelDeltaV * (-0.5 + mu::randomDouble());
+				mu::vec3 pixelCenter = pixelLoc + (x * cam.pixelDeltaU) + (y * cam.pixelDeltaV) + sampleSquer;
 
-				mu::vec3 rayDir = mu::normalize(pixelCenter - camCeneter);
+				mu::vec3 rayDir = mu::normalize(pixelCenter - cam.camCeneter);
 
-				Ray ray(camCeneter, rayDir);
+				Ray ray(cam.camCeneter, rayDir);
 				pixelColor = pixelColor + RayColor(ray, scean, maxDepth);
 
 			}
@@ -82,9 +101,9 @@ void Rendere::Trace(Texture2D& target,  Scean& scean, int32_t maxDepth, int32_t 
 
 void Rendere::AlphaCorrect(Texture2D* const target)
 {
-	for (int32_t y = 0; y < target->GetHeight(); y++)
+	for (uint32_t y = 0; y < target->GetHeight(); y++)
 	{
-		for (int32_t x = 0; x < target->GetWidth(); x++)
+		for (uint32_t x = 0; x < target->GetWidth(); x++)
 		{
 			mu::vec3 temp = static_cast<mu::vec3>(target->GetPixel(x, y));
 			temp = mu::vec3(sqrt(temp.x), sqrt(temp.y), sqrt(temp.z));

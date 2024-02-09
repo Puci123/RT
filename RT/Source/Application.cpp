@@ -71,6 +71,13 @@ Applciation::~Applciation()
 }
 
 
+void Applciation::CreateScean()
+{
+
+
+}
+
+
 
 //================================== Execute once after construting object ==================================//
 
@@ -110,13 +117,12 @@ void Applciation::Start()
 
 
 
-	m_Scean.M_Shapes.push_back(Shape(0, 2, -10, 5, metalic1));
-	m_Scean.M_Shapes.push_back(Shape(0, 0, -2,   0.5,  textured));
-	m_Scean.M_Shapes.push_back(Shape(-1.75, 0, -2, 0.5, metalic2));
-	m_Scean.M_Shapes.push_back(Shape(1.75, 0, -2, 0.5, dieclectic));
+	m_Scean.M_Shapes.push_back(Shape(0, 0, -1, 0.5, textured));
+
 	m_Scean.M_Shapes.push_back(Shape(0, -100.5, -1, 100, mat1));
 
 }
+
 
 
 //================================== MULTI THREAD ================================== //
@@ -171,9 +177,12 @@ void Applciation::PerFrame()
 			m_IsRendering = true;
 			m_Timer.Start();
 
-			int32_t lines = ceil(m_TargetTexture->GetHeight() / static_cast<float>(m_BatchSize));
+			int32_t lines = static_cast<int32_t>(ceil(m_TargetTexture->GetHeight() / static_cast<float>(m_BatchSize)));
+			Rendere::Camera cam;
+			Rendere::Bake(m_TargetTexture->GetWidth(), cam, m_TargetTexture->GetHeight());
 
-			for (int i = 0; i < lines; i++)
+
+			for (int32_t i = 0; i < lines; i++)
 			{
 				int32_t stop = (i + 1) * m_BatchSize;
 
@@ -182,7 +191,7 @@ void Applciation::PerFrame()
 
 					stop = m_TargetTexture->GetHeight();
 				}
-				m_ThreadPool.QueueJob(std::bind(Rendere::Trace, std::ref(*m_TargetTexture), std::ref(m_Scean), m_MaxDepth, m_SamplesPerPixel, i * m_BatchSize, stop));
+				m_ThreadPool.QueueJob(std::bind(Rendere::Trace, std::ref(*m_TargetTexture), std::ref(m_Scean), std::ref(cam), m_MaxDepth, m_SamplesPerPixel, i * m_BatchSize, stop));
 			}
 
 			m_ThreadPool.Start();
@@ -230,7 +239,7 @@ void Applciation::PerFrame()
 
 			ImGui::DragInt("Batch size ", &m_BatchSize, 1.0f, 1, m_TargetTexture->GetHeight());
 
-			if (!m_ThreadPool.Working() && temp != m_ThreadPool.GetWokrersCount());
+			if (!m_ThreadPool.Working() && temp != m_ThreadPool.GetWokrersCount())
 			{
 				m_ThreadPool.SetThreadCount(temp);
 			}
@@ -275,6 +284,7 @@ void Applciation::PerFrame()
 	glfwSwapBuffers(m_Window);
 
 }
+
 
 
 
@@ -330,7 +340,10 @@ void Applciation::PerFrame()
 			Timer timer;
 			timer.Start();
 
-			Rendere::Trace(*m_TargetTexture, m_Scean, m_MaxDepth, m_SamplesPerPixel,0,m_TargetTexture->GetHeight());
+			Rendere::Camera  cam;
+			Rendere::Bake(m_TargetTexture->GetWidth(), cam, m_TargetTexture->GetHeight());
+
+			Rendere::Trace(*m_TargetTexture, m_Scean, cam,m_MaxDepth, m_SamplesPerPixel,0,m_TargetTexture->GetHeight());
 			timer.Stop();
 
 			m_TargetTexture->Update();

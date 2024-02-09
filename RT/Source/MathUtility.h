@@ -98,6 +98,16 @@ namespace mu
 		return (a.x * b.x + a.y * b.y + a.z * b.z);
 	}
 
+	inline vec3 cross(const vec3& a, const vec3& b) 
+	{
+		return mu::vec3
+		{ 
+			a.y * b.z - a.z * b.y,
+			a.z * b.x - a.x * b.z,
+			a.x * b.y - a.y * b.x
+		};
+	}
+
 
 
 	//================================= RANDOM FUNCTIONS =================================//
@@ -144,4 +154,10 @@ namespace mu
 
 	}
 
+	//================================= HELP FUNCTIONS =================================//
+
+	inline double deg2rad(double deg) 
+	{
+		return deg * 0.0174532925;
+	}
 }
